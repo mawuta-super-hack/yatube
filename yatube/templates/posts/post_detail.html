@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% load thumbnail %}
+<!DOCTYPE html>
+<html lang="ru"> 
+  <head>  
+    {% block title %}
+      <title>Пост {{ post_d.text|truncatechars_html:30 }}</title>
+    {% endblock %}
+  </head>
+  <body>
+    <main>
+      {% block content %}
+      <div class="row">
+        <aside class="col-12 col-md-3">
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+              Дата публикации: {{ post_d.pub_date|date:"d E Y"  }}
+            </li>
+            {% if post_d.group %}  
+               <li class="list-group-item">
+                Группа: {{ post_d.group }}
+                <a href="{% url "posts:group_list" post_d.group.slug %}">
+                  все записи группы
+                </a>
+              </li>
+              {% endif %}
+              <li class="list-group-item">
+                Автор: 
+                <a href="{% url 'posts:profile' author.username %}" class="btn btn-link">
+                {% if author.first_name %}
+                  {{ author.get_full_name }}
+                {% else %}
+                  {{ author.username }}
+                {% endif %}
+                </a>
+              </li>
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+              Всего постов автора:  <span >{{ posts|length }}</span>
+            </li>
+            <li class="list-group-item">
+              <a href="{% url "posts:profile" author.username %}">
+                все посты пользователя
+              </a>
+            </li>
+          </ul>
+            <li class="list-group-item">
+              <a href="{% url "posts:post_edit" post_d.id %}">
+                редактировать запись 
+              </a>
+            </li>
+          </aside>
+        <article class="col-12 col-md-9">
+          {% thumbnail post_d.image "960x339" crop="center" upscale=True as im %}
+          <img class="card-img my-2" src="{{ im.url }}">
+          {% endthumbnail %}
+          <p>
+            {{ post_d.text|linebreaks }}
+          </p>
+          {% include "includes\add_comment.html" %} 
+        </article>
+        
+      </div>
+       
+      {% endblock %}
+    </main>
+  </body>
+</html>

@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}<title>Об авторе проекта</title>{% endblock %}
+{% block content %}
+<h1>Привет, я автор</h1>
+<div class="row">
+  <aside class="col-12 col-md-3">
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item">
+        Автор проекта YAtube
+      </li>
+      <li class="list-group-item">
+          Магистр пcихологических наук
+      </li>
+      <li class="list-group-item">
+          Опытный HR
+      </li>
+      <li class="list-group-item d-flex justify-content-between align-items-center">
+          Начинающий разработчик 
+      </li>
+      <li class="list-group-item">
+        <p><img src="{% static 'img/author.jpg' %}" width="290" height="350" class="d-inline-block align-top" alt=""
+          align="middle" 
+      </li>
+    </ul>
+  </aside>
+  <article class="col-12 col-md-9">
+    <p>
+    Меня зовут Мария. Я недавно поняла, что не хочу больше быть "гуманитарием".</p> 
+     <p>Поняла, что больше всего в универе мне запомнилась высшая математика, которая была на первом курсе.</p> 
+      <p>Поняла, что готова попробовать себя в новом направлении и стать разработчиком. </p> 
+        <p>И раз вы это читаете, что-то у меня получается :)   </p> 
+    </article>
+</div> 
+</aside>
+<article class="col-12 col-md-9"align="right">
+  <p>  Обатную связь о работе проекта Вы сможете написать в мой телеграм <span style="color:lightblue">@Zadire20</span> </p> 
+{% endblock %}
