@@ -49,7 +49,7 @@ class PostsPagesTests(TestCase):
             text='Тестовый пост',
             id=502,
             group_id=100,
-            image='posts/small.gif'
+            image=cls.uploaded
         )
         cls.post_author = Post.objects.create(
             author=cls.author,
@@ -68,6 +68,7 @@ class PostsPagesTests(TestCase):
         shutil.rmtree(TEMP_MEDIA_ROOT, ignore_errors=True)
 
     def setUp(self):
+        cache.clear()
         self.guest_client = Client()
         self.user = User.objects.get(username='auth')
         self.authorized_client = Client()
@@ -99,13 +100,11 @@ class PostsPagesTests(TestCase):
         views = [
             reverse('posts:index'),
             reverse('posts:group_list', kwargs={
-                'slug': PostsPagesTests.group.slug}),
-            reverse('posts:profile', kwargs={'username': 'auth'}),
-        ]
+                'slug': PostsPagesTests.group.slug})]
         for view in views:
             with self.subTest(view=view):
                 response = self.authorized_client.get(view)
-                first_obj = response.context['page_obj'][0]
+                first_obj = response.context['page_obj'][1]
                 post_text_0 = first_obj.text
                 post_author_0 = first_obj.author.username
                 post_id_0 = first_obj.id
@@ -114,6 +113,12 @@ class PostsPagesTests(TestCase):
                 self.assertEqual(post_author_0, 'auth')
                 self.assertEqual(post_id_0, PostsPagesTests.post.id)
                 self.assertEqual(post_image_0, 'posts/small.gif')
+
+        response = self.authorized_client.get(
+            reverse('posts:profile', kwargs={'username': 'author'}))
+        first_obj = response.context['page_obj'][0]
+        self.assertEqual(first_obj.text, PostsPagesTests.post_author.text)
+        self.assertEqual(first_obj.id, PostsPagesTests.post_author.id)
 
     def test_correct_context_detail_obj(self):
         '''Проверка контекста одного поста'''

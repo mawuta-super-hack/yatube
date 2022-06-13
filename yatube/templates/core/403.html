@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+{% block title %}<title>Custom 403</title>{% endblock %}
+{% block content %}
+  <h1>Custom 403</h1>
+  <p>Информация со станицы {{ path }} имеет ограничения доступа</p>
+  <a href="{% url 'posts:index' %}"> Идите на главную</a>
+{% endblock %}

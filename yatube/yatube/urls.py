@@ -12,6 +12,8 @@ urlpatterns = [
 ]
 
 handler404 = 'core.views.page_not_found'
+handler403 = 'core.views.page_forbidden'
+handler500 = 'core.views.internal_server_error'
 
 if settings.DEBUG:
     urlpatterns += static(
