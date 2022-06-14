@@ -72,7 +72,7 @@ class PostsPagesTests(TestCase):
         self.user = User.objects.get(username='auth')
         self.authorized_client = Client()
         self.authorized_client.force_login(self.user)
-        
+        cache.clear()
 
     def test_pages_coorrect(self):
         '''Проверка шаблона'''
@@ -247,7 +247,6 @@ class PaginatorViewTest(TestCase):
         self.user = User.objects.get(username='noname')
         self.authorized_client = Client()
         self.authorized_client.force_login(self.user)
-        
 
     def test_first_page_ten(self):
         '''Проверка количества постов на первой странице'''
@@ -295,7 +294,6 @@ class CacheTest(TestCase):
         self.user = User.objects.get(username='new')
         self.authorized_client = Client()
         self.authorized_client.force_login(self.user)
-        
 
     def test_content_cache(self):
         '''Проверка кэша на главной странице'''
