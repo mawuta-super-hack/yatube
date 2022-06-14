@@ -12,7 +12,12 @@ from posts.models import Comment, Follow, Group, Post, User
 TEMP_MEDIA_ROOT = tempfile.mkdtemp(dir=settings.BASE_DIR)
 
 
-@override_settings(MEDIA_ROOT=TEMP_MEDIA_ROOT)
+@override_settings(
+    MEDIA_ROOT=TEMP_MEDIA_ROOT,
+    CACHES={
+        "default": {
+            "BACKEND": "django.core.cache.backends.dummy.DummyCache",
+        }})
 class PostsPagesTests(TestCase):
     @classmethod
     def setUpClass(cls) -> None:
