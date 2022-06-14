@@ -73,7 +73,6 @@ class PostsPagesTests(TestCase):
         shutil.rmtree(TEMP_MEDIA_ROOT, ignore_errors=True)
 
     def setUp(self):
-        cache.clear()
         self.guest_client = Client()
         self.user = User.objects.get(username='auth')
         self.authorized_client = Client()
