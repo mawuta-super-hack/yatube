@@ -14,7 +14,15 @@
             {% for post in page_obj %}
               <ul>
                 <li>
-                  Автор: {{ post.author.get_full_name }}
+                  Автор:
+                  {% if post.author.first_name %}
+                  <a href="{% url 'posts:profile' post.author.username %}" class="btn btn-link"> 
+                    {{ post.author.get_full_name }}
+                  {% else %}
+                    <a href="{% url 'posts:profile' post.author.username %}" class="btn btn-link">   
+                      {{ post.author.username }}
+                  {% endif %}
+                  </a>
                 </li>
                 <li>
                   Дата публикации: {{ post.pub_date|date:"d E Y" }}

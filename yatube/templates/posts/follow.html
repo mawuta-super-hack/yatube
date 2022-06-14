@@ -10,6 +10,9 @@
         <div class="container py-5">
           <h1>Последние обновления среди избранных авторов</h1>
           <article>
+          {% if empty %}
+            <p>Пока Вы ни на кого не подписаны. Нужно это исправить!</p>
+          {% else %}
             {% cache 20 index_list page_obj%}
             {% for post in page_obj %}
               <ul>
@@ -32,9 +35,10 @@
             {% if not forloop.last %}<hr>{% endif %}
             {% endfor %}
             {% include "posts/includes/paginator.html" %}
+          {% endcache %}
+          {% endif %}
           </article>
-        </div>
-        {% endcache %}
+        </div>      
       {% endblock%}
     </main>
   </body>
