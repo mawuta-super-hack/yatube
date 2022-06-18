@@ -1,3 +1,4 @@
+from core.models import BaseModel
 from django.contrib.auth import get_user_model
 from django.db import models
 
@@ -18,20 +19,10 @@ class Group(models.Model):
         return self.title
 
 
-class Post(models.Model):
+class Post(BaseModel):
     text = models.TextField(
         verbose_name='Текст поста',
         help_text='Введите текст поста'
-    )
-    pub_date = models.DateTimeField(
-        auto_now_add=True,
-        verbose_name='Дата публикации'
-    )
-    author = models.ForeignKey(
-        User,
-        on_delete=models.CASCADE,
-        related_name='posts',
-        verbose_name='Автор'
     )
     group = models.ForeignKey(
         'group',
@@ -55,30 +46,20 @@ class Post(models.Model):
         verbose_name_plural = "Посты"
 
 
-class Comment(models.Model):
+class Comment(BaseModel):
     post = models.ForeignKey(
         'Post',
         on_delete=models.CASCADE,
         related_name='comments',
         verbose_name='Пост'
     )
-    author = models.ForeignKey(
-        User,
-        on_delete=models.CASCADE,
-        related_name='comments',
-        verbose_name='Автор'
-    )
     text = models.TextField()
-    created = models.DateTimeField(
-        auto_now_add=True,
-        verbose_name='Дата создания'
-    )
 
     def __str__(self):
         return self.text[:20]
 
     class Meta:
-        ordering = ('-created',)
+        ordering = ('-pub_date',)
         verbose_name_plural = "Комментарии"
 
 
@@ -96,3 +77,5 @@ class Follow(models.Model):
 
     class Meta:
         verbose_name_plural = "Подписки"
+        constraints = models.UniqueConstraint(
+            fields=['user', 'author'], name='unique_combination')

@@ -1,13 +1,12 @@
 import shutil
 import tempfile
 
+from django.conf import settings
+from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import Client, TestCase, override_settings
 from django.urls import reverse
 from posts.forms import CommentForm, PostForm
 from posts.models import Comment, Group, Post, User
-from django.conf import settings
-from django.core.files.uploadedfile import SimpleUploadedFile
-
 
 TEMP_MEDIA_ROOT = tempfile.mkdtemp(dir=settings.BASE_DIR)
 
@@ -112,10 +111,12 @@ class PostsFormTests(TestCase):
         '''Проверка: неавторизованный пользователь
         не может создавать пост
         '''
+        count = Post.objects.count()
         response = self.guest_client.get(
             reverse('posts:post_create'))
         self.assertRedirects(
             response, '/auth/login/?next=/create/')
+        self.assertEqual(count, Post.objects.count())
 
     def test_edit_form_guest(self):
         '''Проверка: неавторизованный пользователь

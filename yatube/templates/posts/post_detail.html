@@ -79,17 +79,18 @@
                 <a href="{% url 'posts:profile' comment.author.username %}">
                   {{ comment.author.username }}
                 </a>
+                <small  class="form-text text-muted" "fst-italic">{{ comment.pub_date }}
+                </small>
               </h5>
                 <p>
                 {{ comment.text }}
                 </p>
+              </h5>
               </div>
             </div>
         {% endfor %} 
         </article>
-        
       </div>
-       
       {% endblock %}
     </main>
   </body>

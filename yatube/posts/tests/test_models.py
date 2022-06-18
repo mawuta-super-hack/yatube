@@ -1,4 +1,5 @@
 from django.test import TestCase
+
 from ..models import Group, Post, User
 
 
@@ -16,6 +17,9 @@ class PostModelTest(TestCase):
             author=cls.user,
             text='Текст тестового поста, проверка теста',
         )
+
+    def test_models_have_correct_name(self):
+        '''Проверка __str__'''
 
     def test_models_have_correct_objects_name_post(self):
         '''Проверка str для поста'''
@@ -37,7 +41,7 @@ class PostModelTest(TestCase):
         verbose_names = {
             'text': 'Текст поста',
             'author': 'Автор',
-            'pub_date': 'Дата публикации',
+            'pub_date': 'Дата создания',
             'group': 'Группа'}
         for field, verbose in verbose_names.items():
             with self.subTest(field=field):
